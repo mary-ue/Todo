@@ -10,7 +10,58 @@ export const User: React.FC = () => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
   const [tasksLength, setTasksLength] = useState<number>(userTasks.length);
 
+  const handleTaskAdded = (newTask: Task) => {
+    setUserTasks((prevTasks) => [...prevTasks, newTask]);
+    setTasksLength((prevLength) => prevLength + 1);
+  };
 
+  const handleTaskRemoved = () => {
+    setUserTasks([]);
+    setTasksLength(0);
+  };
+
+  const handleRemoveTask = (taskId: string) => {
+    if (userTasks.length > 0) {
+      const updatedTasks = userTasks.filter((task) => task.id !== taskId);
+      setUserTasks(updatedTasks);
+      setTasksLength(updatedTasks.length);
+
+      const userDataString = localStorage.getItem('userData');
+      if (userDataString) {
+        const userData: UsersData = JSON.parse(userDataString);
+        const currentUser = userData.users.find((userData) => userData.username === user);
+  
+        if (currentUser) {
+          currentUser.tasks = updatedTasks;
+          localStorage.setItem('userData', JSON.stringify(userData));
+        }
+      }
+    }
+  };
+
+  const handleCompleteTask = (taskId: string) => {
+    if (userTasks.length > 0) {
+      const updatedTasks: Task[] = userTasks.map((task) =>
+        task.id === taskId ? { ...task, status: 'выполнена' } : task
+      );
+  
+      setUserTasks(updatedTasks);
+  
+      const userDataString = localStorage.getItem('userData');
+      if (userDataString) {
+        const userData: UsersData = JSON.parse(userDataString);
+        const currentUser = userData.users.find(
+          (userData) => userData.username === user
+        );
+
+        if (currentUser) {
+          currentUser.tasks = updatedTasks;
+          localStorage.setItem('userData', JSON.stringify(userData));
+        }
+      }
+    }
+  };
+  
   useEffect(() => {
     const retrieveUserData = () => {
       const retrievedDataString = localStorage.getItem('userData');
@@ -28,16 +79,6 @@ export const User: React.FC = () => {
     retrieveUserData();
   }, [user]);
 
-  const handleTaskAdded = (newTask: Task) => {
-    setUserTasks((prevTasks) => [...prevTasks, newTask]);
-    setTasksLength((prevLength) => prevLength + 1);
-  };
-
-  const handleTaskRemoved = () => {
-    setUserTasks([]);
-    setTasksLength(0);
-  };
-
   return (
     <Container>
       <Form
@@ -46,7 +87,11 @@ export const User: React.FC = () => {
         onTaskRemoved={handleTaskRemoved}
         tasksLength={tasksLength}
         />
-      <Table userTasks={userTasks} />
+      <Table
+        userTasks={userTasks}
+        onRemoveTask={handleRemoveTask}
+        onCompleteTask={handleCompleteTask}
+      />
     </Container>
   );
 };
