@@ -29,8 +29,10 @@ export const User: React.FC = () => {
       const userDataString = localStorage.getItem('userData');
       if (userDataString) {
         const userData: UsersData = JSON.parse(userDataString);
-        const currentUser = userData.users.find((userData) => userData.username === user);
-  
+        const currentUser = userData.users.find(
+          (userData) => userData.username === user
+        );
+
         if (currentUser) {
           currentUser.tasks = updatedTasks;
           localStorage.setItem('userData', JSON.stringify(userData));
@@ -44,9 +46,9 @@ export const User: React.FC = () => {
       const updatedTasks: Task[] = userTasks.map((task) =>
         task.id === taskId ? { ...task, status: 'выполнена' } : task
       );
-  
+
       setUserTasks(updatedTasks);
-  
+
       const userDataString = localStorage.getItem('userData');
       if (userDataString) {
         const userData: UsersData = JSON.parse(userDataString);
@@ -61,13 +63,15 @@ export const User: React.FC = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     const retrieveUserData = () => {
       const retrievedDataString = localStorage.getItem('userData');
       if (retrievedDataString) {
         const retrievedData: UsersData = JSON.parse(retrievedDataString);
-        const currentUser = retrievedData.users.find((userData) => userData.username === user);
+        const currentUser = retrievedData.users.find(
+          (userData) => userData.username === user
+        );
 
         if (currentUser) {
           setUserTasks(currentUser.tasks);
@@ -86,7 +90,7 @@ export const User: React.FC = () => {
         onTaskAdded={handleTaskAdded}
         onTaskRemoved={handleTaskRemoved}
         tasksLength={tasksLength}
-        />
+      />
       <Table
         userTasks={userTasks}
         onRemoveTask={handleRemoveTask}

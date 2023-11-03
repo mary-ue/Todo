@@ -8,7 +8,11 @@ interface TableProps {
   onCompleteTask: (taskId: string) => void;
 }
 
-export const Table: React.FC<TableProps> = ({ userTasks, onRemoveTask, onCompleteTask }) => {
+export const Table: React.FC<TableProps> = ({
+  userTasks,
+  onRemoveTask,
+  onCompleteTask,
+}) => {
   console.log(userTasks);
 
   return (
@@ -24,7 +28,12 @@ export const Table: React.FC<TableProps> = ({ userTasks, onRemoveTask, onComplet
 
         <tbody>
           {userTasks.map((task) => (
-            <TaskRow key={task.id} task={task} onRemoveTask={onRemoveTask} onCompleteTask={onCompleteTask} />
+            <TaskRow
+              key={task.id}
+              task={task}
+              onRemoveTask={onRemoveTask}
+              onCompleteTask={onCompleteTask}
+            />
           ))}
         </tbody>
       </table>

@@ -21,7 +21,7 @@ export const Auth: React.FC<AuthProps> = () => {
     const userExists = usersData?.users.some((user) => user.username === username);
 
     if (userExists) {
-      navigate(`/auth/${username}`);
+      navigate(`/${username}`);
     } else {
       setNoUser(true);
     }

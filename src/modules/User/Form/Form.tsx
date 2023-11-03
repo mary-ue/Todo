@@ -10,7 +10,12 @@ interface FormProps {
   onTaskRemoved: () => void;
 }
 
-export const Form: React.FC<FormProps> = ({ user, tasksLength, onTaskAdded, onTaskRemoved }) => {
+export const Form: React.FC<FormProps> = ({
+  user,
+  tasksLength,
+  onTaskAdded,
+  onTaskRemoved,
+}) => {
   const [taskText, setTaskText] = useState<string>('');
   const [isButtonDisabled, setButtonDisabled] = useState<boolean>(true);
 
@@ -46,7 +51,9 @@ export const Form: React.FC<FormProps> = ({ user, tasksLength, onTaskAdded, onTa
     const userDataString = localStorage.getItem('userData');
     if (userDataString) {
       const userData: UsersData = JSON.parse(userDataString);
-      const currentUser = userData.users.find((userData) => userData.username === user);
+      const currentUser = userData.users.find(
+        (userData) => userData.username === user
+      );
 
       if (currentUser) {
         currentUser.tasks = [];
@@ -55,7 +62,6 @@ export const Form: React.FC<FormProps> = ({ user, tasksLength, onTaskAdded, onTa
       }
     }
   };
-  
 
   return (
     <div className={s.wrapper}>
@@ -71,7 +77,11 @@ export const Form: React.FC<FormProps> = ({ user, tasksLength, onTaskAdded, onTa
           />
         </label>
 
-        <button type="submit" className="btn btn-primary me-3" disabled={isButtonDisabled}>
+        <button
+          type="submit"
+          className="btn btn-primary me-3"
+          disabled={isButtonDisabled}
+        >
           Сохранить
         </button>
 
@@ -79,7 +89,6 @@ export const Form: React.FC<FormProps> = ({ user, tasksLength, onTaskAdded, onTa
           className="btn btn-warning"
           type="button"
           onClick={() => {
-            
             if (window.confirm('Вы уверены, что хотите удалить все задачи?')) {
               handleReset();
             }
