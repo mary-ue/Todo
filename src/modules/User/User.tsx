@@ -8,6 +8,8 @@ import { Table } from './Table/Table';
 export const User: React.FC = () => {
   const { user } = useParams<{ user?: string }>();
   const [userTasks, setUserTasks] = useState<Task[]>([]);
+  const [tasksLength, setTasksLength] = useState<number>(userTasks.length);
+
 
   useEffect(() => {
     const retrieveUserData = () => {
@@ -18,6 +20,7 @@ export const User: React.FC = () => {
 
         if (currentUser) {
           setUserTasks(currentUser.tasks);
+          setTasksLength(currentUser.tasks.length);
         }
       }
     };
@@ -27,11 +30,22 @@ export const User: React.FC = () => {
 
   const handleTaskAdded = (newTask: Task) => {
     setUserTasks((prevTasks) => [...prevTasks, newTask]);
+    setTasksLength((prevLength) => prevLength + 1);
+  };
+
+  const handleTaskRemoved = () => {
+    setUserTasks([]);
+    setTasksLength(0);
   };
 
   return (
     <Container>
-      <Form user={user ?? ''} onTaskAdded={handleTaskAdded} />
+      <Form
+        user={user ?? ''}
+        onTaskAdded={handleTaskAdded}
+        onTaskRemoved={handleTaskRemoved}
+        tasksLength={tasksLength}
+        />
       <Table userTasks={userTasks} />
     </Container>
   );
