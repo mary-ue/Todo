@@ -91,11 +91,17 @@ export const User: React.FC = () => {
         onTaskRemoved={handleTaskRemoved}
         tasksLength={tasksLength}
       />
-      <Table
-        userTasks={userTasks}
-        onRemoveTask={handleRemoveTask}
-        onCompleteTask={handleCompleteTask}
-      />
+      {
+        tasksLength ? (
+          <Table
+          userTasks={userTasks}
+          onRemoveTask={handleRemoveTask}
+          onCompleteTask={handleCompleteTask}
+        />
+        ) : (
+          <p>Список задач пока пуст.</p>
+        )
+      }
     </Container>
   );
 };

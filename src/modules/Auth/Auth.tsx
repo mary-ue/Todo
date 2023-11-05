@@ -4,16 +4,14 @@ import { Container } from '../Container/Container'
 import s from './Auth.module.scss';
 import { UsersData, initialData } from '../../mosks';
 
-interface AuthProps {}
-
-export const Auth: React.FC<AuthProps> = () => {
+export const Auth: React.FC = () => {
   const navigate = useNavigate();
   const [usersData, setUsersData] = useState<UsersData | null>(null);
   const [username, setUsername] = useState<string>('');
-  const [noUser, setNoUser] = useState<boolean>(false);
+  // const [noUser, setNoUser] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNoUser(false);
+    // setNoUser(false);
     setUsername(e.target.value);
   };
 
@@ -23,7 +21,14 @@ export const Auth: React.FC<AuthProps> = () => {
     if (userExists) {
       navigate(`/${username}`);
     } else {
-      setNoUser(true);
+      const newUserData: UsersData = {
+        users: [...(usersData?.users || []), { username, tasks: [] }],
+      };
+
+      localStorage.setItem('userData', JSON.stringify(newUserData));
+      setUsersData(newUserData);
+
+      navigate(`/${username}`);
     }
   };
 
@@ -64,12 +69,12 @@ export const Auth: React.FC<AuthProps> = () => {
             Войти
           </button>
         </div>
-        {noUser && (
+        {/* {noUser && (
           <div className={s.error}>
             <p>Пользователь с именем {username} не найден.</p>
             <p>Попробуйте еще раз.</p>
           </div>
-        )}
+        )} */}
       </div>
     </Container>
   )
