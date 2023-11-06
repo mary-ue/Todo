@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { Task, UsersData } from '../../mosks';
 import { Form } from './Form/Form';
 import { Table } from './Table/Table';
+import { useUser } from '../../UserContext';
 
 export const User: React.FC = () => {
-  const { user } = useParams<{ user?: string }>();
+  // const { user } = useParams<{ user?: string }>();
   const [userTasks, setUserTasks] = useState<Task[]>([]);
   const [tasksLength, setTasksLength] = useState<number>(userTasks.length);
+  const { currentUser: user } = useUser();
 
   const handleTaskAdded = (newTask: Task) => {
     setUserTasks((prevTasks) => [...prevTasks, newTask]);

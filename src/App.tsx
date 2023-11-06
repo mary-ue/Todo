@@ -10,7 +10,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="auth" element={<Auth />} />
-        <Route path="/:user" element={<User />} />
+        <Route path="todolist" element={<User />} />
       </Routes>
     </BrowserRouter>
   );

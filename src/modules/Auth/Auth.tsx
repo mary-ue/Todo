@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container } from '../Container/Container'
+import { Container } from '../Container/Container';
 import s from './Auth.module.scss';
 import { UsersData, initialData } from '../../mosks';
+import { useUser } from '../../UserContext';
 
 export const Auth: React.FC = () => {
+  const { setCurrentUser } = useUser();
   const navigate = useNavigate();
   const [usersData, setUsersData] = useState<UsersData | null>(null);
   const [username, setUsername] = useState<string>('');
-  // const [noUser, setNoUser] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setNoUser(false);
     setUsername(e.target.value);
   };
 
@@ -19,7 +19,9 @@ export const Auth: React.FC = () => {
     const userExists = usersData?.users.some((user) => user.username === username);
 
     if (userExists) {
-      navigate(`/${username}`);
+      setCurrentUser(username);
+      localStorage.setItem('currentUser', username);
+      navigate('/todolist');
     } else {
       const newUserData: UsersData = {
         users: [...(usersData?.users || []), { username, tasks: [] }],
@@ -28,7 +30,9 @@ export const Auth: React.FC = () => {
       localStorage.setItem('userData', JSON.stringify(newUserData));
       setUsersData(newUserData);
 
-      navigate(`/${username}`);
+      setCurrentUser(username);
+      localStorage.setItem('currentUser', username);
+      navigate('/todolist');
     }
   };
 
@@ -36,20 +40,18 @@ export const Auth: React.FC = () => {
     if (e.key === 'Enter') {
       handleLogin();
     }
-  };  
+  };
 
   useEffect(() => {
     const retrievedDataString = localStorage.getItem('userData');
     if (retrievedDataString) {
       const retrievedData: UsersData = JSON.parse(retrievedDataString);
       setUsersData(retrievedData);
-      console.log('get data from ls');
     } else {
       setUsersData(initialData);
       localStorage.setItem('userData', JSON.stringify(initialData));
-      console.log('set data to ls');
     }
-  }, []); 
+  }, []);
 
   return (
     <Container>
@@ -69,13 +71,7 @@ export const Auth: React.FC = () => {
             Войти
           </button>
         </div>
-        {/* {noUser && (
-          <div className={s.error}>
-            <p>Пользователь с именем {username} не найден.</p>
-            <p>Попробуйте еще раз.</p>
-          </div>
-        )} */}
       </div>
     </Container>
-  )
-}
+  );
+};

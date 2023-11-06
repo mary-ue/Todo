@@ -65,7 +65,7 @@ export const Form: React.FC<FormProps> = ({
 
   return (
     <div className={s.wrapper}>
-      <h1>Todo App</h1>
+      <h1 className='mb-3'>Todo App пользователя {`${user}`}</h1>
       <form className="d-flex align-items-center mb-3" onSubmit={handleSubmit}>
         <label className="form-group me-3 mb-0">
           <input
