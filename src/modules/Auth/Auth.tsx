@@ -34,7 +34,7 @@ export const Auth: React.FC = () => {
       localStorage.setItem('currentUser', username);
       navigate('/todolist');
     }
-  };
+};
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

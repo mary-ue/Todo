@@ -12,7 +12,9 @@ interface UserContextValue {
 export const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export const UserProvider: React.FC<UserContextProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<string | null>(
+    localStorage.getItem('currentUser') || null
+  );
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
