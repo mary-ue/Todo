@@ -5,9 +5,11 @@ import { Task, UsersData } from '../../mosks';
 import { Form } from './Form/Form';
 import { Table } from './Table/Table';
 import { useUser } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export const User: React.FC = () => {
   // const { user } = useParams<{ user?: string }>();
+  const navigate = useNavigate();
   const [userTasks, setUserTasks] = useState<Task[]>([]);
   const [tasksLength, setTasksLength] = useState<number>(userTasks.length);
   const { currentUser: user } = useUser();
@@ -69,6 +71,7 @@ export const User: React.FC = () => {
   useEffect(() => {
     const retrieveUserData = () => {
       const retrievedDataString = localStorage.getItem('userData');
+      if (!user) navigate('/auth');
       if (retrievedDataString) {
         const retrievedData: UsersData = JSON.parse(retrievedDataString);
         const currentUser = retrievedData.users.find(
@@ -83,7 +86,7 @@ export const User: React.FC = () => {
     };
 
     retrieveUserData();
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <Container>

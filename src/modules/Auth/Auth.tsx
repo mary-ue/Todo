@@ -20,7 +20,7 @@ export const Auth: React.FC = () => {
 
     if (userExists) {
       setCurrentUser(username);
-      localStorage.setItem('currentUser', username);
+      // localStorage.setItem('currentUser', username);
       navigate('/todolist');
     } else {
       const newUserData: UsersData = {
@@ -31,7 +31,7 @@ export const Auth: React.FC = () => {
       setUsersData(newUserData);
 
       setCurrentUser(username);
-      localStorage.setItem('currentUser', username);
+      // localStorage.setItem('currentUser', username);
       navigate('/todolist');
     }
 };
